@@ -26,66 +26,14 @@ class LojbanGismuThesaurus extends Activity with TypedActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE)
 		setContentView(R.layout.main)
 
-		findView(TR.textview).setText("hello, world!")
-
 		val file = new BufferedReader(new InputStreamReader(
 			am.open("thsrs.xml"), "UTF-8"))
 		val xml = XML.load(file)
 
 		for (sec <- xml \ "section") {
-		/*
-			val test = new TextView(this)
-			test.setText((sec \ "@title").toString)
-			test.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD)
-		*/
 			val test = addSection(sec, "")
 			top.addView(test)
 		}
-
-		val tv = new TextView(this)
-		tv.setText("Yoshikuni")
-
-		val ll = new LinearLayout(this)
-		ll.setOrientation(LinearLayout.VERTICAL)
-
-
-		val tv2 = new TextView(this)
-		tv2.setText("Jujo")
-
-		val tv3 = new TextView(this)
-		tv3.setText("hello")
-
-		var added2 = false
-
-		tv2.setOnClickListener(new View.OnClickListener() {
-			def onClick(_v: View) {
-				if (added2) {
-					ll.removeView(tv3)
-					added2 = false
-				} else {
-					ll.addView(tv3)
-					added2 = true
-				}
-			}
-		})
-
-		ll.addView(tv2)
-
-		var added = false
-
-		tv.setOnClickListener(new View.OnClickListener() {
-			def onClick(_v: View) {
-				if (added) {
-					top.removeView(ll)
-					added = false
-				} else {
-					top.addView(ll)
-					added = true
-				}
-			}
-		})
-		top.addView(tv)
-
 	}
 
 	def addSection(xml : Node, idnt : String): LinearLayout = {
