@@ -105,7 +105,7 @@ class LojbanGismuThesaurus extends Activity with TypedActivity {
 			val wll = new LinearLayout(this)
 			val wtv = new TextView(this)
 			val wentv = new TextView(this)
-			wtv.setText(idnt + "    " + (w \ "@jbo").toString)
+			wtv.setText(idnt + "  " + (w \ "@jbo").toString)
 			wtv.setTypeface(Typeface.MONOSPACE, Typeface.BOLD)
 			wentv.setText("  " + (w \ "@en").toString)
 			wll.addView(wtv)
