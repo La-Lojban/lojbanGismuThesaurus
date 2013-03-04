@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory android:title="Settings">
+<EditTextPreference
+	android:key="source_xml_file"
+	android:title="Source XML file"
+	android:summary="Source XML file"
+	android:dialogTitle="Source XML file"
+	/>
+</PreferenceCategory>
+</PreferenceScreen>

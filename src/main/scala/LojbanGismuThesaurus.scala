@@ -6,9 +6,14 @@ import _root_.scala.xml.{XML, Node}
 import _root_.android.app.Activity
 import _root_.android.os.Bundle
 
+import _root_.android.content.Intent
+import _root_.android.preference.PreferenceManager
+
 import _root_.android.view.View
 import _root_.android.view.View.OnClickListener
 import _root_.android.view.Window
+import _root_.android.view.Menu
+import _root_.android.view.MenuItem
 
 import _root_.android.widget.TextView
 import _root_.android.widget.LinearLayout
@@ -17,9 +22,12 @@ import _root_.android.content.res.AssetManager
 
 import _root_.android.graphics.Typeface
 
+import _root_.android.util.Log
+
 class LojbanGismuThesaurus extends Activity with TypedActivity {
 	lazy val top = findView(TR.top)
 	lazy val am = getAssets()
+	lazy val pm = PreferenceManager getDefaultSharedPreferences this
 
 	override def onCreate(bundle: Bundle) {
 		super.onCreate(bundle)
@@ -75,5 +83,28 @@ class LojbanGismuThesaurus extends Activity with TypedActivity {
 		})
 
 		top
+	}
+
+	override def onResume {
+		super.onResume
+		if (pm.contains("source_xml_file")) {
+			Log.d("LojbanGismuThesaurus", "source file: " + pm.getString("source_xml_file", ""))
+		}
+	}
+
+	override def onCreateOptionsMenu(menu: Menu): Boolean = {
+		menu.add(Menu.NONE, 0, 0, "settings")
+		return super.onCreateOptionsMenu(menu)
+	}
+
+	override def onOptionsItemSelected(item: MenuItem): Boolean = {
+		item.getItemId() match {
+		case 0 =>
+			Log.d("LojbanGismuThesaurus", "selected")
+			val intent = new Intent(this, classOf[Preference])
+			Log.d("LojbanGismuThesaurus", "before startActivity")
+			startActivity(intent)
+		}
+		return true
 	}
 }
