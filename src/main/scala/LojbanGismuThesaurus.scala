@@ -1,6 +1,7 @@
 package iocikun.juj.lojban.gismu_thesaurus
 
-import _root_.java.io.{BufferedReader, InputStreamReader}
+import _root_.java.io.{BufferedReader, InputStreamReader, FileInputStream, File,
+	FileNotFoundException, InputStream}
 import _root_.scala.xml.{XML, Node}
 
 import _root_.android.app.Activity
@@ -33,9 +34,26 @@ class LojbanGismuThesaurus extends Activity with TypedActivity {
 		super.onCreate(bundle)
 		requestWindowFeature(Window.FEATURE_NO_TITLE)
 		setContentView(R.layout.main)
+		displayAll
 
-		val file = new BufferedReader(new InputStreamReader(
-			am.open("thsrs.xml"), "UTF-8"))
+	}
+
+	def displayAll {
+
+		top.removeAllViews
+
+		var fis = am.open("thsrs.xml")
+
+		if (pm.contains("source_xml_file")) {
+			Log.d("LojbanGismuThesaurus", "source file: " + pm.getString("source_xml_file", ""))
+			try {
+				fis = new FileInputStream(new File(pm.getString("source_xml_file", "")))
+			} catch {
+				case e:FileNotFoundException =>
+				Log.d("LojbanGismuThesaurus", "file not found: " + pm.getString("source_xml_file", ""))
+			}
+		}
+		val file = new BufferedReader(new InputStreamReader(fis, "UTF-8"))
 		val xml = XML.load(file)
 
 		for (sec <- xml \ "section") {
@@ -87,9 +105,7 @@ class LojbanGismuThesaurus extends Activity with TypedActivity {
 
 	override def onResume {
 		super.onResume
-		if (pm.contains("source_xml_file")) {
-			Log.d("LojbanGismuThesaurus", "source file: " + pm.getString("source_xml_file", ""))
-		}
+		displayAll
 	}
 
 	override def onCreateOptionsMenu(menu: Menu): Boolean = {
