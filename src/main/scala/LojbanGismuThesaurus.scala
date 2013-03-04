@@ -49,13 +49,13 @@ class LojbanGismuThesaurus extends Activity with TypedActivity {
 		ll.setOrientation(LinearLayout.VERTICAL)
 
 		top.addView(tv)
-		for (w <- xml \ "word") {
+		for (w <- xml \ "item") {
 			val wll = new LinearLayout(this)
 			val wtv = new TextView(this)
 			val wentv = new TextView(this)
-			wtv.setText(idnt + "  " + (w \ "@jbo").toString)
+			wtv.setText(idnt + "  " + (w \ "@title").toString)
 			wtv.setTypeface(Typeface.MONOSPACE, Typeface.BOLD)
-			wentv.setText("  " + (w \ "@en").toString)
+			wentv.setText("  " + (w \ "@description").toString)
 			wll.addView(wtv)
 			wll.addView(wentv)
 			ll.addView(wll)
